@@ -44,7 +44,6 @@ void ShowUsage(){
 }
 void main(int argc,char *argv[]) {
     triple DataIn={0,0,0};
-    int ConvertMode=0;
     if(argc==5){
 	  DataIn.a=strtof(argv[2],NULL);
 	  DataIn.b=strtof(argv[3],NULL);
