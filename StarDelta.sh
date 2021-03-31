@@ -24,7 +24,7 @@ void ShowDelta(triple delta){
     #endif
 }
 void ShowStar(triple star){
-    printf("Star:\t%5.1f\t%5.1f\t%5.1f\n",star.c,star.b,star.a);
+    printf("Star:\t%5.1f\t%5.1f\t%5.1f\n",star.a,star.b,star.c);
     #ifdef DEBUG
     printf("CheckStar:\t%5.1f\t%5.1f\t%5.1f\n",
 	   star.c+star.b,star.c+star.a,star.a+star.b);
