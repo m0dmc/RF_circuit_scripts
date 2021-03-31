@@ -1,7 +1,8 @@
 #!/usr/bin/bash
-tail -n+3 "$0"|gcc -xc -lm - && ./a.out ; rm a.out ; exit
+tail -n+3 "$0"|gcc -xc - && ./a.out $1 $2 $3 $4; rm a.out ; exit
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
@@ -11,11 +12,8 @@ typedef struct {
     float b;
     float c;
 }triple;
+bool TripleValid(triple t){ return((t.a>0)|(t.b>0)|(t.c>0)); }
 float RParallel2(float A, float B) { return(A*B/(A+B)); }
-void ShowHead(bool sd){
-    printf(sd?"Convert Star to Delta network:-\n":
-	   "Convert Delta to Star network:-\n");
-}
 void ShowDelta(triple delta){
     printf("Delta:\t%5.1f\t%5.1f\t%5.1f\n",delta.a,delta.b,delta.c);
     #ifdef DEBUG
@@ -40,15 +38,27 @@ triple ConvertStarToDelta(triple star){
     float x=star.a*star.b+star.b*star.c+star.a*star.c;
     return((triple){x/star.a,x/star.b,x/star.c});
 }
-void main() {
-    bool StarToDelta=false;
-    triple DataIn={65,200,75}; // Insert data values to convert here
-    ShowHead(StarToDelta);
-    if(StarToDelta){
-	  ShowStar(DataIn);
-	  ShowDelta(ConvertStarToDelta(DataIn));
-      }else{
-	  ShowDelta(DataIn);  
-	  ShowStar(ConvertDeltaToStar(DataIn));  
-      }
+void ShowUsage(){
+    printf("Append parameters sd x.xx y.yy z.zz to convert star to delta.\n");
+    printf("Append parameters ds x.xx y.yy z.zz to convert delta to star.\n");
+}
+void main(int argc,char *argv[]) {
+    triple DataIn={0,0,0};
+    int ConvertMode=0;
+    if(argc==5){
+	  DataIn.a=strtof(argv[2],NULL);
+	  DataIn.b=strtof(argv[3],NULL);
+	  DataIn.c=strtof(argv[4],NULL);
+	  if((strcmp(argv[1],"sd")==0)&(TripleValid(DataIn))){
+		ShowStar(DataIn);
+		ShowDelta(ConvertStarToDelta(DataIn));
+	    } else if((strcmp(argv[1],"ds")==0)&(TripleValid(DataIn))){
+		ShowDelta(DataIn);  
+		ShowStar(ConvertDeltaToStar(DataIn));
+	    } else {
+		ShowUsage();
+	    }
+      } else {
+	  ShowUsage();
+      }	
 }
