@@ -1,4 +1,4 @@
 # RF_circuit_scripts
-These scripts to aid design of RF inductors and attenuators.
+These scripts to aid design of RF inductors and attenuator networks.
 
-dmc 2021-03-26
+m0dmc   2021-04-01
